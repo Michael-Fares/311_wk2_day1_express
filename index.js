@@ -2,7 +2,6 @@
 const express = require('express')
 const app = express()
 const port = process.env.PORT || 4000
-const uuid = require('uuid')
 
 const { users } = require('./state')
 
@@ -41,7 +40,34 @@ app.post('/users', (req,res) => {
   res.json(users)
 })
 
-// put requests
+// put requests to update users/1
+
+app.put('users/:id', (req, res) => {
+  const found = users.some(user => user._id === parseInt(req.params.id));
+
+  if(found) {
+  const updateUser = req.body;
+  users.forEach(user => {
+    if(user._id === parseInt(req.params.id)) {
+      user.name = updateUser.name ? updateUser.name : user.name;
+      user.occupation = updateUser.occupation ? updateUser.occupation : user.occupation;
+      res.json(user)
+    }
+    });
+   } else {
+      res.status(400).json({msg: `No user with id ${req.params.id} found`})
+    }
+
+});
+
+
+// Delete user
+
+app.delete('users/:id', (req, res) => {
+  res.json({ msg: 'User deleted', users: users.filter(user => user._id !== parseInt(req.params.id))});
+  res.send('user deleted');
+
+})
 
 /* END - create routes here */
 
