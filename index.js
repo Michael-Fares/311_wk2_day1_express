@@ -42,20 +42,21 @@ app.post('/users', (req,res) => {
 
 // put requests to update users/1
 
-app.put('users/:id', (req, res) => {
+app.put('/users/:id', (req, res) => {
   const found = users.some(user => user._id === parseInt(req.params.id));
 
   if(found) {
   const updateUser = req.body;
   users.forEach(user => {
     if(user._id === parseInt(req.params.id)) {
-      user.name = updateUser.name ? updateUser.name : user.name;
-      user.occupation = updateUser.occupation ? updateUser.occupation : user.occupation;
+      user.name = updateUser.name 
+      user.occupation = updateUser.occupation 
       res.json(user)
     }
     });
    } else {
       res.status(400).json({msg: `No user with id ${req.params.id} found`})
+      res.status(404).json({msg: 'Error'})
     }
 
 });
@@ -63,10 +64,10 @@ app.put('users/:id', (req, res) => {
 
 // Delete user
 
-app.delete('users/:id', (req, res) => {
-  res.json({ msg: 'User deleted', users: users.filter(user => user._id !== parseInt(req.params.id))});
-  res.send('user deleted');
-
+app.delete('/users/:id', (req, res) => {
+let updatedUsers =  users.filter(user => user._id !== parseInt(req.params.id))
+res.json(updatedUsers)
+res.send(`user was deleted`)
 })
 
 /* END - create routes here */
