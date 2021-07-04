@@ -66,8 +66,8 @@ app.put('/users/:id', (req, res) => {
 
 app.delete('/users/:id', (req, res) => {
 let updatedUsers =  users.filter(user => user._id !== parseInt(req.params.id))
-res.json(updatedUsers)
 res.send(`user was deleted`)
+res.json(updatedUsers)
 })
 
 /* END - create routes here */
