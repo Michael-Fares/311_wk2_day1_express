@@ -1,5 +1,6 @@
 
 const express = require('express')
+const bodyParser = require('body-parser');
 const app = express()
 const port = process.env.PORT || 4000
 
@@ -65,9 +66,10 @@ app.put('/users/:id', (req, res) => {
 // Delete user
 
 app.delete('/users/:id', (req, res) => {
-let updatedUsers =  users.filter(user => user._id !== parseInt(req.params.id))
-res.send(`user was deleted`)
-res.json(updatedUsers)
+let deletedUser =  users.find(user => user._id === parseInt(req.params.id))
+deletedUser.isActive = false;
+res.json(deletedUser)
+res.send(`this user has been deleted: ${deletedUser}`)
 })
 
 /* END - create routes here */
